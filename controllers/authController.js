@@ -1,5 +1,5 @@
 const { createUser, findByEmail } = require('../models/userModel');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 exports.showRegister = (req, res) => {
   res.render('register', { errors: [], old: {} });
@@ -18,7 +18,8 @@ exports.register = async (req, res) => {
     const existing = await findByEmail(email);
     if (existing) return res.render('register', { errors: ['El correo ya está registrado'], old: { name, email } });
 
-    const hash = await bcrypt.hash(password, 10);
+    // bcryptjs does not return promises for hash; use sync to avoid callback complexity here
+    const hash = bcrypt.hashSync(password, 10);
     const user = await createUser(name, email, hash);
     req.session.user = { id: user.id, name: user.name, email: user.email };
     return res.redirect('/');
@@ -41,7 +42,8 @@ exports.login = async (req, res) => {
   try {
     const user = await findByEmail(email);
     if (!user) return res.render('login', { errors: ['Credenciales inválidas'], old: { email } });
-    const match = await bcrypt.compare(password, user.password);
+    // use sync compare for bcryptjs
+    const match = bcrypt.compareSync(password, user.password);
     if (!match) return res.render('login', { errors: ['Credenciales inválidas'], old: { email } });
 
     req.session.user = { id: user.id, name: user.name, email: user.email };
