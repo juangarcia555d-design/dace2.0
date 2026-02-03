@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Videos UNERG — DACE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0f1216;
+      --card: #151a21;
+      --muted: #8b95a7;
+      --text: #e9eef6;
+      --brand: #6ae3ff;
+      --border: #212733;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      background: radial-gradient(1200px 800px at 10% 0%, #12161d 0%, var(--bg) 45%, #0c0f13 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    header {
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.6rem;
+      color: var(--brand);
+    }
+    main {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 24px;
+    }
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .video-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 12px 24px #00000040;
+    }
+    .video-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.1rem;
+      color: var(--brand);
+    }
+    video {
+      width: 100%;
+      border-radius: 8px;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Videos Institucionales — UNERG</h1>
+  </header>
+
+  <main>
+    <div class="video-grid">
+      <div class="video-card">
+        <h3>Presentación institucional</h3>
+        <video controls>
+          <source src="/images/video.mp4" type="video/mp4" />
+          Tu navegador no soporta video HTML5.
+        </video>
+      </div>
+      <div class="video-card">
+        <h3>Vida universitaria</h3>
+        <video controls>
+          <source src="/images/video.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="video-card">
+        <h3>Eventos académicos</h3>
+        <video controls>
+          <source src="/images/video.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 Universidad Nacional Experimental Rómulo Gallegos — DACE UNERG
+  </footer>
+</body>
+</html>

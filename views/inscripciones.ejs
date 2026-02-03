@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>DACE UNERG — Inscripción de Carreras</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root{
+      --bg: #0f1216;
+      --card: #151a21;
+      --muted: #8b95a7;
+      --text: #e9eef6;
+      --brand: #6ae3ff;
+      --brand-2: #a1ff84;
+      --focus: #ffcc70;
+      --border: #212733;
+    }
+    *{ box-sizing:border-box }
+    body{
+      margin:0;
+      font-family:"Inter", sans-serif;
+      background: radial-gradient(1200px 800px at 10% 0%, #12161d 0%, var(--bg) 45%, #0c0f13 100%);
+      color: var(--text);
+      line-height:1.6;
+    }
+    header{
+      padding:20px;
+      background: linear-gradient(180deg, rgba(15,18,22,0.85), rgba(15,18,22,0.6));
+      border-bottom:1px solid var(--border);
+      text-align:center;
+    }
+    header h1{ margin:0; font-size:1.5rem }
+    main{
+      max-width:800px;
+      margin:30px auto;
+      background: var(--card);
+      padding:30px;
+      border-radius:16px;
+      box-shadow:0 20px 40px #00000050;
+    }
+    h2{ margin-top:0; color: var(--brand) }
+    label{
+      display:block;
+      margin-top:15px;
+      font-weight:600;
+    }
+    select, input, textarea{
+      width:100%;
+      padding:12px;
+      margin-top:8px;
+      border:1px solid var(--border);
+      border-radius:10px;
+      background:#1b212b;
+      color: var(--text);
+      font-size:1rem;
+    }
+    input[type="file"]{ border:none; background:none }
+    textarea{ resize:vertical }
+    button{
+      margin-top:20px;
+      padding:14px 22px;
+      background: var(--brand);
+      color:#000;
+      border:none;
+      border-radius:10px;
+      font-weight:700;
+      cursor:pointer;
+      transition: background .3s ease;
+    }
+    button:hover{ background: var(--brand-2) }
+    footer{
+      text-align:center;
+      padding:20px;
+      border-top:1px solid var(--border);
+      background:#141820;
+      margin-top:40px;
+      font-size:0.9rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>DACE UNERG — Inscripción de Carreras</h1>
+  </header>
+
+  <main>
+    <h2>Formulario de Inscripción</h2>
+
+    <% if (errors && errors.length) { %>
+      <div style="background:#ffdddd;color:#900;padding:12px;border-radius:8px;margin-bottom:10px;">
+        <strong>Se encontraron errores:</strong>
+        <ul>
+          <% errors.forEach(function(err){ %>
+            <li><%= err %></li>
+          <% }) %>
+        </ul>
+      </div>
+    <% } %>
+
+    <% if (success) { %>
+      <div style="background:#ddffdd;color:#060;padding:12px;border-radius:8px;margin-bottom:10px;">
+        <strong><%= success %></strong>
+      </div>
+    <% } %>
+
+    <form method="POST" action="/inscripciones" enctype="multipart/form-data">
+      <label for="carrera">Seleccione la carrera:</label>
+      <select id="carrera" name="carrera" required>
+        <option value="">-- Elija una opción --</option>
+        <option value="medicina" <%= form.carrera === 'medicina' ? 'selected' : '' %>>Medicina</option>
+        <option value="derecho" <%= form.carrera === 'derecho' ? 'selected' : '' %>>Derecho</option>
+        <option value="informatica" <%= form.carrera === 'informatica' || form.carrera === 'ingenieria' ? 'selected' : '' %>>Ingeniería de Sistemas</option>
+        <option value="odontologia" <%= form.carrera === 'odontologia' ? 'selected' : '' %>>Odontología</option>
+        <option value="civil" <%= form.carrera === 'civil' || form.carrera === 'educacion' ? 'selected' : '' %>>Ingeniería Civil</option>
+      </select>
+
+      <label for="nombre">Nombre completo:</label>
+      <input type="text" id="nombre" name="nombre" required value="<%= form.nombre || '' %>">
+
+      <label for="cedula">Cédula de identidad:</label>
+      <input type="text" id="cedula" name="cedula" required value="<%= form.cedula || '' %>">
+
+      <label for="correo">Correo electrónico:</label>
+      <input type="email" id="correo" name="correo" required value="<%= form.correo || '' %>">
+
+      <label for="documentos">Suba sus documentos (foto/imagen):</label>
+      <input type="file" id="documentos" name="documentos" accept=".jpg,.jpeg,.png,.pdf" multiple <%= success ? '' : 'required' %>>
+
+      <label for="observaciones">Observaciones:</label>
+      <textarea id="observaciones" name="observaciones" rows="4"><%= form.observaciones || '' %></textarea>
+
+      <button type="submit">Enviar inscripción</button>
+    </form>
+
+    <% if (horarioImage) { %>
+      <h3 style="margin-top:20px">Horario asignado</h3>
+      <img src="/images/horarios/<%= horarioImage %>" alt="Horario" style="max-width:100%;border-radius:8px;border:1px solid var(--border);margin-top:10px;">
+    <% } %>
+  </main>
+
+  <footer>
+    © 2025 Universidad Nacional Experimental Rómulo Gallegos — DACE UNERG
+  </footer>
+</body>
+</html>
+

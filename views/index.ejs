@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DACE UNERG — Portal Académico</title>
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="left">
+        <div class="brand" aria-label="Encabezado del portal DACE UNERG">
+
+          <img src="/images/Dace Simple.png" alt="Logotipo DACE UNERG" class="logo-img" />
+          <div>
+            <h1>DACE UNERG</h1>
+            <div class="sub">Dirección de Admisión, Control y Evaluación</div>
+          </div>
+        </div>
+
+        <nav aria-label="Navegación principal">
+           <a class="nav-link" href="/inscripciones"><strong>Inscripciones</strong><span>Inscripciones</span></a>
+          <a class="nav-link" href="#verificacion"><strong>Verificación</strong><span>Documentos</span></a>
+          <a class="nav-link" href="#recuperacion"><strong>Recuperación</strong><span>Contraseña</span></a>
+          <a class="nav-link" href="/videos"><strong>Videos</strong><span>Demostrativos</span></a>
+          <a class="nav-link" href="/social"><strong>Red</strong><span>SOCIAL</span></a>
+        </nav>
+      </div>
+
+      <div class="nav-right">
+        <% if (user) { %>
+          <div class="user-box">
+            <div class="user-avatar"><%= (user.name && user.name[0].toUpperCase()) || 'U' %></div>
+            <div class="user-greet">Hola, <strong><%= user.name %></strong></div>
+            <a class="logout-btn" href="/logout">Cerrar sesión</a>
+          </div>
+        <% } else { %>
+          <a class="nav-link" href="/login"><strong>Iniciar sesión</strong></a>
+          <a class="nav-link" href="/register"><strong>Registrarse</strong></a>
+        <% } %>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero-card">
+        <span class="badge">Portal académico</span>
+        <h2>Gestión estudiantil clara y segura</h2>
+        <p>Accede a verificación de documentos, activación de cuentas, recuperación de contraseña y videos demostrativos del sistema. Interfaz rápida, accesible y pensada para trámites esenciales.</p>
+      </div>
+      <div class="hero-card">
+        <h2>Estado del sistema</h2>
+        <p>Servicio operativo. Recomendamos mantener tus credenciales seguras y actualizar tu contraseña periódicamente.</p>
+      </div>
+
+      <div class="hero-card">
+        <h2>Certificado de inscripción</h2>
+        <p>Visualiza y descarga un certificado de inscripción con tus datos de usuario. (Versión de demostración)</p>
+        <p><a class="btn" href="/certificate">Ver certificado →</a></p>
+      </div>
+    </section>
+
+    <section class="grid" id="verificacion" aria-labelledby="ttl-verificacion">
+      <div class="card">
+        <h3 id="ttl-verificacion">Verificación de documentos</h3>
+        <p>Consulta validez mediante código o número de verificación asociado a tus constancias y certificaciones.</p>
+        <a href="#" aria-label="Ir a verificación de documentos">Ir a verificación →</a>
+      </div>
+
+      <div class="card" id="videos" aria-labelledby="ttl-videos">
+        <h3 id="ttl-videos">Inscripciones</h3>
+        <p>Inscripciones y portulaciones para los aspirantes a nuevo ingreso.</p>
+        <a href="/inscripciones" aria-label="Ir a videos demostrativos">inscribirse →</a>
+      </div>
+
+      <div class="card" id="activacion" aria-labelledby="ttl-activacion">
+        <h3 id="ttl-activacion">Activación de cuentas</h3>
+        <p>Activa tu usuario institucional con datos básicos y confirma acceso al portal académico.</p>
+        <a href="#" aria-label="Ir a activación de cuentas">Activar cuenta →</a>
+      </div>
+
+      <div class="card" id="recuperacion" aria-labelledby="ttl-recuperacion">
+        <h3 id="ttl-recuperacion">Recuperación de contraseña</h3>
+        <p>Restablece tu contraseña con verificación por correo o respuesta de seguridad.</p>
+        <a href="#" aria-label="Ir a recuperación de contraseña">Recuperar acceso →</a>
+      </div>
+
+      <div class="card" id="videos" aria-labelledby="ttl-videos">
+        <h3 id="ttl-videos">Videos demostrativos</h3>
+        <p>Guías rápidas para navegar el sistema y completar trámites sin errores.</p>
+        <a href="/videos" aria-label="Ir a videos demostrativos">Ver tutoriales →</a>
+      </div>
+
+
+    </section>
+  </main>
+
+
+ <div class="carrusel">
+        <div class="wrape">
+            <img src="/images/4.png" alt="Comida saludable 1" />
+            <img src="/images/1.jpeg" alt="Comida saludable 2" />
+            <img src="/images/2.jpeg" alt="Comida saludable 3" />
+            <img src="/images/3.jpg" alt="Comida saludable 4" />
+            <img src="/images/4.png" alt="Comida saludable 1" />
+            <img src="/images/1.jpeg" alt="Comida saludable 2" />
+            <img src="/images/2.jpeg" alt="Comida saludable 3" />
+            <img src="/images/3.jpg" alt="Comida saludable 4" />
+            <img src="/images/4.png" alt="Comida saludable 1" />
+            <img src="/images/1.jpeg" alt="Comida saludable 2" />
+            <img src="/images/2.jpeg" alt="Comida saludable 3" />
+            <img src="/images/3.jpg" alt="Comida saludable 4" />
+        </div>
+
+
+  <footer>
+    <div class="wrap foot">
+      <div class="col">
+        <h4>UNERG</h4>
+        <p>Universidad Nacional Experimental de los Llanos Centrales Rómulo Gallegos.</p>
+      </div>
+      <div class="col">
+        <h4>Contacto institucional</h4>
+        <ul>
+          <li><strong>Correo:</strong> secretariaunerg@unerg.edu.ve</li>
+          <li><strong>Atención:</strong> DACE — Gestión académica estudiantil</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Accesibilidad</h4>
+        <ul>
+          <li>Contraste alto y tipografía legible</li>
+          <li>Navegación por teclado</li>
+          <li>Etiquetas ARIA en secciones clave</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
+

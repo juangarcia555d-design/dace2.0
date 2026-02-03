@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %> - DACE UNERG</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <style>
+    main{ max-width:800px; margin:30px auto; background:#151a21; padding:30px; border-radius:12px; color:#e9eef6 }
+    h2{ color:#6ae3ff }
+    .card{ background:#0f1216; padding:16px; border-radius:10px; border:1px solid #212733 }
+    img{ max-width:100%; border-radius:8px; margin-top:12px }
+    .meta{ margin-top:12px; color:#8b95a7 }
+    a.button{ display:inline-block; margin-top:16px; padding:10px 14px; background:#6ae3ff; color:#000; border-radius:8px; text-decoration:none; font-weight:700 }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 style="text-align:center;color:#fff;margin-top:20px;">DACE UNERG</h1>
+  </header>
+  <main>
+    <h2>¡Inscripción completada!</h2>
+
+    <div class="card">
+      <p><strong><%= message %></strong></p>
+
+      <p class="meta"><strong>Nombre:</strong> <%= inscripcion.nombre %></p>
+      <p class="meta"><strong>Cédula:</strong> <%= inscripcion.cedula %></p>
+      <p class="meta"><strong>Carrera:</strong> <%= inscripcion.carrera %></p>
+
+      <h3>Horario correspondiente</h3>
+      <img src="/images/horarios/<%= horarioImage %>" alt="Horario de <%= inscripcion.carrera %>">
+
+      <div style="margin-top:14px">
+        <a href="/inscripciones" class="button">Volver al formulario</a>
+        <a href="/" style="margin-left:8px;color:#a1ff84;text-decoration:none;font-weight:700">Ir al inicio</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

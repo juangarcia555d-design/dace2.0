@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DACE UNERG — Módulo Social Académico</title>
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+  <link rel="stylesheet" href="/stylesheets/social.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="left">
+        <div class="brand" aria-label="Encabezado del portal DACE UNERG">
+          <img src="/images/Dace Simple.png" alt="Logotipo DACE UNERG" class="logo-img" />
+          <div>
+            <h1>DACE UNERG</h1>
+            <div class="sub">Dirección de Admisión, Control y Evaluación</div>
+          </div>
+        </div>
+
+        <nav aria-label="Navegación principal">
+           <a class="nav-link" href="/index"><strong>inicio</strong><span>Inicio</span></a>
+          <a class="nav-link" href="/inscripciones"><strong>Inscripciones</strong><span>Inscripciones</span></a>
+          <a class="nav-link" href="#verificacion"><strong>Verificación</strong><span>Documentos</span></a>
+          <a class="nav-link" href="#recuperacion"><strong>Recuperación</strong><span>Contraseña</span></a>
+          <a class="nav-link" href="/videos"><strong>Videos</strong><span>Demostrativos</span></a>
+          <a class="nav-link active" href="/social"><strong>Social</strong><span>Académico</span></a>
+        </nav>
+      </div>
+
+      <div class="nav-right">
+        <div class="user-box">
+          <% if (user) { %>
+            <div class="user-avatar"><%= user.name.charAt(0).toUpperCase() %></div>
+            <div class="user-greet">Hola, <strong><%= user.name %></strong></div>
+            <a class="logout-btn" href="/logout">Cerrar sesión</a>
+          <% } else { %>
+            <a class="login-btn" href="/login">Iniciar sesión</a> |
+            <a class="register-btn" href="/register">Registrarse</a>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Sección principal del módulo social -->
+    <section class="social-hero">
+      <div class="hero-card">
+        <span class="badge">Módulo Social Académico</span>
+        <h2>Comunidad académica UNERG</h2>
+        <p>Comparte publicaciones, investigaciones y eventos académicos. Conecta con colegas, estudiantes y docentes de la comunidad universitaria.</p>
+        
+        <!-- Crear nueva publicación (dinámica) -->
+        <div class="new-post">
+          <div class="post-author">
+            <div class="post-avatar"><%= user ? user.name.charAt(0).toUpperCase() : 'G' %></div>
+            <div>
+              <strong><%= user ? user.name : 'Invitado' %></strong>
+              <div class="post-date">Comparte una publicación académica...</div>
+            </div>
+          </div>
+          <div class="post-actions">
+            <button class="post-btn" onclick="showPostForm()">
+              <i class="fas fa-edit"></i> Crear publicación
+            </button>
+            <button class="post-btn" onclick="showEventForm()">
+              <i class="fas fa-calendar-alt"></i> Anunciar evento
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Formulario para nueva publicación (dinámico) -->
+    <div id="post-form" class="post-form-container" style="display: none;">
+      <div class="post-form">
+        <div class="form-header">
+          <h3>Crear nueva publicación</h3>
+          <button class="close-btn" onclick="hidePostForm()">&times;</button>
+        </div>
+        <% if (!user) { %>
+          <div class="form-body">
+            <p>Debes <a href="/login">iniciar sesión</a> para crear publicaciones.</p>
+          </div>
+        <% } else { %>
+        <form id="create-post-form" enctype="multipart/form-data">
+          <textarea name="content" class="input" rows="4" placeholder="Describe tu publicación académica, investigación o anuncio..."></textarea>
+          
+          <div class="form-options">
+            <label>Adjuntar imagen (opcional):</label>
+            <input type="file" name="image" class="input" accept="image/*">
+          </div>
+          
+          <div class="form-buttons">
+            <button type="button" class="btn-secondary" onclick="hidePostForm()">Cancelar</button>
+            <button type="submit" class="btn">Publicar</button>
+          </div>
+        </form>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- Filtros y búsqueda -->
+    <section class="social-filters">
+      <div class="filters-container">
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Buscar publicaciones académicas...">
+        </div>
+        
+        <div class="filter-tags">
+          <span class="filter-tag active">Todo</span>
+          <span class="filter-tag">Investigación</span>
+          <span class="filter-tag">Eventos</span>
+          <span class="filter-tag">Recursos</span>
+          <span class="filter-tag">Logros</span>
+          <span class="filter-tag">Preguntas</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contenedor principal de publicaciones -->
+    <section class="social-main">
+      <!-- Columna de publicaciones -->
+      <div id="posts" class="social-posts">
+        <!-- Publicaciones dinámicas cargadas por JavaScript -->
+        <div id="posts-loading" class="posts-loading">Cargando publicaciones...</div>
+      </div>
+              <div class="event-info">
+                <i class="fas fa-user-graduate"></i>
+                <span>Dirigido a: Docentes, investigadores y estudiantes</span>
+              </div>
+            </div>
+            
+            <div class="post-tags">
+              <span class="tag">Educación</span>
+              <span class="tag">Innovación</span>
+              <span class="tag">Congreso</span>
+            </div>
+          </div>
+          
+          <div class="post-footer">
+            <div class="post-stats">
+              <span><i class="fas fa-user-check"></i> 45 asisten</span>
+              <span><i class="fas fa-comment"></i> 12</span>
+              <span><i class="fas fa-share"></i> 7</span>
+            </div>
+            <div class="post-actions">
+              <button class="btn-attend"><i class="fas fa-calendar-check"></i> Asistiré</button>
+              <button class="action-btn"><i class="far fa-comment"></i> Comentar</button>
+              <button class="action-btn"><i class="fas fa-share"></i> Compartir</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Publicación 3 -->
+        <article class="post-card">
+          <div class="post-header">
+            <div class="post-author">
+              <div class="post-avatar">C</div>
+              <div>
+                <strong>Carlos Rodríguez</strong>
+                <div class="post-meta">Estudiante de Ingeniería · Hace 3 días</div>
+              </div>
+            </div>
+            <div class="post-type">
+              <span class="type-badge resource"><i class="fas fa-book"></i> Recurso</span>
+            </div>
+          </div>
+          
+          <div class="post-content">
+            <h3>Recopilación de herramientas para análisis de datos en investigación</h3>
+            <p>Comparto esta lista curada de herramientas gratuitas y de código abierto útiles para el análisis de datos en proyectos de investigación. Incluye software estadístico, visualización de datos y herramientas para investigación cualitativa.</p>
+            
+            <div class="resource-list">
+              <div class="resource-item">
+                <i class="fab fa-r-project"></i>
+                <div>
+                  <strong>R Studio</strong>
+                  <p>Entorno de desarrollo integrado para el lenguaje R</p>
+                </div>
+              </div>
+              <div class="resource-item">
+                <i class="fas fa-chart-bar"></i>
+                <div>
+                  <strong>JASP</strong>
+                  <p>Software de análisis estadístico con interfaz gráfica</p>
+                </div>
+              </div>
+              <div class="resource-item">
+                <i class="fas fa-code"></i>
+                <div>
+                  <strong>Python + Pandas</strong>
+                  <p>Librerías para análisis y manipulación de datos</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="post-tags">
+              <span class="tag">Análisis de Datos</span>
+              <span class="tag">Software Libre</span>
+              <span class="tag">Investigación</span>
+            </div>
+          </div>
+          
+          <div class="post-footer">
+            <div class="post-stats">
+              <span><i class="fas fa-download"></i> 89</span>
+              <span><i class="fas fa-heart"></i> 31</span>
+              <span><i class="fas fa-comment"></i> 5</span>
+            </div>
+            <div class="post-actions">
+              <button class="action-btn"><i class="fas fa-download"></i> Descargar recursos</button>
+              <button class="action-btn"><i class="far fa-comment"></i> Comentar</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Publicación 4 -->
+        <article class="post-card">
+          <div class="post-header">
+            <div class="post-author">
+              <div class="post-avatar">L</div>
+              <div>
+                <strong>Dra. Laura Mendoza</strong>
+                <div class="post-meta">Decana Facultad de Educación · Hace 4 días</div>
+              </div>
+            </div>
+            <div class="post-type">
+              <span class="type-badge achievement"><i class="fas fa-trophy"></i> Logro</span>
+            </div>
+          </div>
+          
+          <div class="post-content">
+            <h3>Proyecto de alfabetización digital ganador de fondos internacionales</h3>
+            <p>Me complace anunciar que nuestro proyecto "Alfabetización Digital para Adultos Mayores en Comunidades Rurales" ha sido seleccionado para recibir financiamiento de la UNESCO. El proyecto beneficiará a más de 500 adultos mayores en 10 comunidades del estado Guárico.</p>
+            
+            <div class="achievement-badge">
+              <i class="fas fa-award"></i>
+              <div>
+                <strong>Fondo UNESCO para la Educación 2024</strong>
+                <p>Proyectos de innovación educativa con impacto social</p>
+              </div>
+            </div>
+            
+            <div class="post-tags">
+              <span class="tag">Educación</span>
+              <span class="tag">Alfabetización Digital</span>
+              <span class="tag">UNESCO</span>
+              <span class="tag">Impacto Social</span>
+            </div>
+          </div>
+          
+          <div class="post-footer">
+            <div class="post-stats">
+              <span><i class="fas fa-heart"></i> 67</span>
+              <span><i class="fas fa-comment"></i> 14</span>
+              <span><i class="fas fa-share"></i> 9</span>
+            </div>
+            <div class="post-actions">
+              <button class="action-btn"><i class="far fa-heart"></i> Felicitar</button>
+              <button class="action-btn"><i class="far fa-comment"></i> Comentar</button>
+              <button class="action-btn"><i class="fas fa-share"></i> Compartir</button>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Columna lateral -->
+      <aside class="social-sidebar">
+        <!-- Estadísticas -->
+        <div class="sidebar-card">
+          <h3>Estadísticas del módulo</h3>
+          <div class="stats-grid">
+            <div class="stat">
+              <div class="stat-number">248</div>
+              <div class="stat-label">Publicaciones</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">1,245</div>
+              <div class="stat-label">Miembros</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">56</div>
+              <div class="stat-label">Eventos activos</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">89</div>
+              <div class="stat-label">Recursos</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat en vivo -->
+        <div class="sidebar-card" id="chat-card">
+          <h3>Chat en vivo 💬</h3>
+          <div class="chat-window" id="chat-window">
+            <ul id="chat-messages" class="chat-messages">
+              <li class="loading">Cargando chat...</li>
+            </ul>
+          </div>
+          <% if (user) { %>
+          <form id="chat-form" class="chat-form">
+            <input id="chat-input" name="content" placeholder="Escribe un mensaje..." autocomplete="off">
+            <button type="submit">Enviar</button>
+          </form>
+          <% } else { %>
+            <p>Inicia sesión para participar en el chat. <a href="/login">Entrar</a></p>
+          <% } %>
+        </div>
+
+        <!-- Eventos próximos -->
+        <div class="sidebar-card">
+          <h3>Próximos eventos</h3>
+          <div class="event-list">
+            <div class="event-item">
+              <div class="event-date">
+                <span class="event-day">22</span>
+                <span class="event-month">Oct</span>
+              </div>
+              <div class="event-details">
+                <strong>Taller de Redacción Científica</strong>
+                <p>Biblioteca Central · 2:00 PM</p>
+              </div>
+            </div>
+            <div class="event-item">
+              <div class="event-date">
+                <span class="event-day">28</span>
+                <span class="event-month">Oct</span>
+              </div>
+              <div class="event-details">
+                <strong>Feria de Investigación Estudiantil</strong>
+                <p>Plaza del Estudiante · Todo el día</p>
+              </div>
+            </div>
+            <div class="event-item">
+              <div class="event-date">
+                <span class="event-day">5</span>
+                <span class="event-month">Nov</span>
+              </div>
+              <div class="event-details">
+                <strong>Conferencia: Inteligencia Artificial en Educación</strong>
+                <p>Auditorio 3 · 10:00 AM</p>
+              </div>
+            </div>
+          </div>
+          <a href="#" class="sidebar-link">Ver todos los eventos →</a>
+        </div>
+
+        <!-- Miembros activos -->
+        <div class="sidebar-card">
+          <h3>Miembros activos</h3>
+          <div class="members-list">
+            <div class="member">
+              <div class="member-avatar">A</div>
+              <div>
+                <strong>Dr. Andrés Silva</strong>
+                <p>Facultad de Ingeniería</p>
+              </div>
+            </div>
+            <div class="member">
+              <div class="member-avatar">P</div>
+              <div>
+                <strong>Prof. Patricia Rojas</strong>
+                <p>Facultad de Ciencias Sociales</p>
+              </div>
+            </div>
+            <div class="member">
+              <div class="member-avatar">E</div>
+              <div>
+                <strong>Est. Eduardo López</strong>
+                <p>Estudiante de Medicina</p>
+              </div>
+            </div>
+          </div>
+          <a href="#" class="sidebar-link">Explorar miembros →</a>
+        </div>
+
+        <!-- Grupos de interés -->
+        <div class="sidebar-card">
+          <h3>Grupos de interés</h3>
+          <div class="groups-list">
+            <div class="group">
+              <i class="fas fa-users"></i>
+              <div>
+                <strong>Investigadores UNERG</strong>
+                <p>345 miembros</p>
+              </div>
+            </div>
+            <div class="group">
+              <i class="fas fa-users"></i>
+              <div>
+                <strong>Estudiantes de Posgrado</strong>
+                <p>189 miembros</p>
+              </div>
+            </div>
+            <div class="group">
+              <i class="fas fa-users"></i>
+              <div>
+                <strong>Educación a Distancia</strong>
+                <p>267 miembros</p>
+              </div>
+            </div>
+          </div>
+          <a href="#" class="sidebar-link">Descubrir grupos →</a>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap foot">
+      <div class="col">
+        <h4>UNERG</h4>
+        <p>Universidad Nacional Experimental de los Llanos Centrales Rómulo Gallegos.</p>
+      </div>
+      <div class="col">
+        <h4>Contacto institucional</h4>
+        <ul>
+          <li><strong>Correo:</strong> secretariaunerg@unerg.edu.ve</li>
+          <li><strong>Atención:</strong> DACE — Gestión académica estudiantil</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Módulo Social Académico</h4>
+        <ul>
+          <li>Espacio para publicaciones académicas</li>
+          <li>Comunidad universitaria conectada</li>
+          <li>Recursos y colaboración</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script id="current-user" type="application/json"><%= JSON.stringify(user || null) %></script>
+  <script>try{ window.CURRENT_USER = JSON.parse(document.getElementById('current-user').textContent || 'null'); }catch(e){ window.CURRENT_USER = null; }</script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/javascripts/social.js?v=<%= Date.now() %>"></script>
+</body>
+</html>
