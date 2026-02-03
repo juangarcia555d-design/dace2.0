@@ -203,5 +203,17 @@
       font-weight:700; cursor:pointer; box-shadow: 0 8px 20px #00000050;
     }
     .btn:hover{ transform: translateY(-2px) }
+
+    /* Ghost / link-like button variant (used for Ver certificado) */
+    .btn.btn-ghost{
+      background: transparent !important;
+      color: var(--brand) !important;
+      box-shadow: none !important;
+      border: 1px solid transparent;
+      padding:8px 12px;
+      font-weight:700;
+    }
+    .btn.btn-ghost:hover{ text-decoration:underline; transform:none }
+
     .muted{ color:var(--muted); margin-top:12px }
   

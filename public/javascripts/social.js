@@ -178,9 +178,11 @@
         let data;
         try { data = await res.json(); } catch (e) { const txt = await res.text().catch(()=>null); console.error('[social] invalid json from create', txt, e); return alert('Error creando publicación: respuesta inválida del servidor'); }
         if (!data.ok) return alert('Error creando publicación: ' + (data.error || ''));
-        // prepend new post
-        const newPostEl = renderPost(data.post);
-        postsContainer.insertBefore(newPostEl, postsContainer.firstChild);
+        // prepend new post (avoid duplicates if socket also delivers it)
+        if (!postsContainer.querySelector(`.post-card[data-post-id="${data.post.id}"]`)) {
+          const newPostEl = renderPost(data.post);
+          postsContainer.insertBefore(newPostEl, postsContainer.firstChild);
+        }
         hidePostForm(); createForm.reset();
       } catch (err) {
         console.error(err); alert('Error creando publicación: ' + (err.message || ''));
@@ -234,8 +236,10 @@
   if (socket) {
     socket.on('chat_message', (m) => appendChatMessage(m));
     socket.on('new_post', (payload) => {
-      const elPost = renderPost(payload.post);
-      postsContainer.insertBefore(elPost, postsContainer.firstChild);
+      if (!postsContainer.querySelector(`.post-card[data-post-id="${payload.post.id}"]`)) {
+        const elPost = renderPost(payload.post);
+        postsContainer.insertBefore(elPost, postsContainer.firstChild);
+      }
     });
     socket.on('post_like', (data) => {
       const card = document.querySelector(`.post-card[data-post-id="${data.post_id}"]`);
