@@ -9,7 +9,15 @@ var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
 var apiRouter = require('./routes/api');
 var session = require('express-session');
-var SQLiteStore = require('connect-sqlite3')(session);
+
+// Try to use connect-sqlite3; if sqlite3 native bindings are missing, fall back to MemoryStore
+var SQLiteStore;
+try {
+  SQLiteStore = require('connect-sqlite3')(session);
+} catch (err) {
+  console.warn('[app] Warning: connect-sqlite3 failed to load. Falling back to in-memory session store. To enable persistent sessions, install sqlite3 for your platform or use Node 18 and rebuild.');
+  SQLiteStore = null;
+}
 
 var app = express();
 
@@ -24,12 +32,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
-  store: new SQLiteStore({ db: 'sessions.sqlite', dir: './', concurrentDB: true }),
+  store: SQLiteStore ? new SQLiteStore({ db: 'sessions.sqlite', dir: './', concurrentDB: true }) : new session.MemoryStore(),
   secret: process.env.SESSION_SECRET || 'dacein-secret',
   resave: false,
   saveUninitialized: false,
   cookie: { maxAge: 1000 * 60 * 60 * 24 * 7, sameSite: 'lax' } // 7 days
 }));
+
+if (!SQLiteStore) console.warn('[app] Session persistence is using MemoryStore (not suitable for production). Install sqlite3 to enable persistent sessions.');
 
 // Make user available in views
 app.use(function(req, res, next) {

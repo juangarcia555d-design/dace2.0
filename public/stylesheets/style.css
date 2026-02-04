@@ -215,5 +215,8 @@
     }
     .btn.btn-ghost:hover{ text-decoration:underline; transform:none }
 
+    /* ensure hero card certificate button has ghost style even with higher specificity */
+    .hero-card .btn.btn-ghost{ background: transparent !important; color: var(--brand) !important; box-shadow: none !important; border: 1px solid transparent !important }
+
     .muted{ color:var(--muted); margin-top:12px }
   
