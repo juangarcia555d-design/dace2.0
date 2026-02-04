@@ -1,5 +1,23 @@
 const path = require('path');
-const sqlite3 = require('sqlite3').verbose();
+let sqlite3;
+try {
+  sqlite3 = require('sqlite3').verbose();
+} catch (err) {
+  console.error('[db] Error loading sqlite3 native bindings:', err && err.message ? err.message : err);
+  console.error('[db] Detected Node.js version:', process.version);
+  console.error('[db] Para resolverlo (elige una):');
+  console.error('  1) Use Node 18: instalar Node 18 (por ejemplo con nvm) y reinstalar dependencias.');
+  console.error("  2) Instale las Visual Studio Build Tools + Python 3 y ejecute 'npm rebuild sqlite3 --build-from-source'.");
+  console.error("  3) En entornos de despliegue (Render) agregue 'postinstall' para rebuild sqlite3 o use Node 18 en el servicio.");
+  console.error('[db] Si solo está desarrollando localmente y desea ejecutar sin SQLite, puede definir la variable de entorno DISABLE_DB=1 para omitir la inicialización.');
+  // Exit early since DB is required for the app to function normally
+  if (!process.env.DISABLE_DB) {
+    console.error('[db] Saliendo: sqlite3 es necesario para ejecutar la aplicación.');
+    process.exit(1);
+  } else {
+    console.warn('[db] DISABLE_DB está activado: la aplicación se ejecutará sin DB persistente (solo para desarrollo).');
+  }
+}
 
 const dbFile = path.join(__dirname, 'database.sqlite');
 const db = new sqlite3.Database(dbFile);
